@@ -19,15 +19,14 @@
 	</div>
 
 	<div>
-		A Todo List
-		<div id="todo-error"></div>
-		<form onsubmit=""></form>
+		<form onsubmit="app.todoController.addTodo(event)">
+			<input type="text" placeholder="Press enter when you are done." id="add-todo">
+		</form>
 		<div id="todos"></div>
 	</div>
 
+</body>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
 	<script type="module" src="app/main.js"></script>
-</body>
-
 </html>
 <html>

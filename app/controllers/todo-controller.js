@@ -1,46 +1,39 @@
 import TodoService from "../services/todo-service.js";
 import store from "../store.js";
+import QuoteService from "../services/quote-service.js";
 
-//TODO Create the render function
-function _drawTodos() {}
+function _drawTodos() {
+	//TODO Refactor this function, it's ~shite~.
+	let drawTo = document.getElementById('todos');
+	let toDraw = store.State.todos.map(cur=>cur.template);
+	let template = ''; toDraw.forEach(cur=>template+=cur);
+	// Not active rn for simplicities sake.
+	// drawTo.innerHTML = template;
+}
 
 export default class TodoController {
-  constructor() {
-    //TODO Remember to register your subscribers
-    TodoService.getTodos();
-  }
+	constructor() {
+		//TODO Remember to register your subscribers
+		store.subscribe('todos', _drawTodos);
+		TodoService.getTodos();
+	}
+	
+	addTodo(event) {
+		event.preventDefault();
+	// ONLY SCOPES TO THE INPUT FIELD, NOT THE VALUE OF.
+		let target = event.target['add-todo'];
+	
+		TodoService.addTodo({description:target.value, completed:false})
+		
+	// RESET THE VALUE FOR EASE OF ADDING TODO'S.
+		target.value = '';
+	}
 
-  async addTodo(e) {
-    e.preventDefault();
-    var form = e.target;
-    var todo = {
-      //TODO build the todo object from the data that comes into this method
-    };
-    try {
-      await TodoService.addTodoAsync(todo);
-    } catch (error) {
-      debugger;
-      console.error("[ERROR]:", error);
-    }
-  }
-
-  //NOTE This method will pass an Id to your service for the TODO that will need to be toggled
-  async toggleTodoStatus(todoId) {
-    try {
-      await TodoService.toggleTodoStatusAsync(todoId);
-    } catch (error) {
-      debugger;
-      console.error("[ERROR]:", error);
-    }
-  }
-
-  //NOTE This method will pass an Id to your service for the TODO that will need to be deleted
-  async removeTodo(todoId) {
-    try {
-      await TodoService.removeTodoAsync(todoId);
-    } catch (error) {
-      debugger;
-      console.error("[ERROR]:", error);
-    }
-  }
+	todoNegative (id, bool) {
+		if(bool){
+			TodoService.removeTodo(id);
+		} else {
+			TodoService.disableTodo(id);
+		}
+	}
 }
