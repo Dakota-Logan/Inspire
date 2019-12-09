@@ -3,9 +3,14 @@ import store from "../store.js";
 import QuoteService from "../services/quote-service.js";
 
 function _drawTodos() {
-	//TODO Refactor this function, it's ~shite~.
 	let drawTo = document.getElementById('todos');
-	let toDraw = store.State.todos.map(cur=>cur.template);
+	let toDraw = store.State.todos.map(cur=>{
+		if(cur.completed){
+			return cur.strikenTemplate;
+		} else {
+			return cur.template;
+		}
+	});
 	let template = `Total: ${toDraw.length}`; toDraw.forEach(cur=>template+=cur);
 	drawTo.innerHTML = template;
 }

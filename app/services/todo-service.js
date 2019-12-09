@@ -15,6 +15,7 @@ class TodoService {
 			.then(res=>{
 				let tempTodos =	res.data.data.map(cur=>new Todo(cur));
 				store.commit('todos', tempTodos);
+				console.log(tempTodos);
 			})
 			.catch(r=>console.error('Error:', e))
 	}
@@ -29,7 +30,6 @@ class TodoService {
 			.catch(e=>console.error('Error:', e));
 	}
 	
-	
 	removeTodo(id) {
 		store.commit('todos', store.State.todos.filter(cur=>cur._id!==id));
 		console.log('Removing: '+ id);
@@ -39,8 +39,15 @@ class TodoService {
 	}
 	
 	disableTodo(id) {
-		todoApi.put({completed:true}, id)
-			.then(res=>console.log(res.data.data))
+		let todo = store.State.todos.find(cur=>cur._id===id);
+		todo.completed = !todo.completed;
+		todoApi.put(id, todo)
+			.then(res=>{
+				let todoList = store.State.todos;
+				let arr = todoList.filter(cur=>cur._id!==id); let index = todoList.findIndex(cur=>cur._id===id);
+				arr.splice(index, 0, todo);
+				store.commit('todos', arr);
+			})
 			.catch(e=>console.error(e))
 		
 	}
