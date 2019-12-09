@@ -4,7 +4,9 @@ import ImageService from "../services/image-service.js";
 //      (you may wish to set it as a background image)
 
 function _draw (imgUrl) {
-	document.body.style.backgroundImage = `url(${imgUrl})`;
+	// document.body.style.backgroundImage = `url(${imgUrl})`;
+	let bgImg =  document.getElementById('bg-img');
+	bgImg.src = imgUrl;
 }
 
 export default class ImageController {
@@ -14,6 +16,6 @@ export default class ImageController {
 	async doDrawAsync () {
 		// Draw the information RETURNED from the service
 		let imgUrl = await ImageService.getImgAsync();
-		_draw(imgUrl.url);
+		_draw(imgUrl.large_url || imgUrl.url);
 	}
 }

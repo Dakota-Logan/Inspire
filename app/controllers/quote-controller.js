@@ -1,7 +1,21 @@
 import QuoteService from "../services/quote-service.js";
 
-//TODO Create methods for constructor, and rendering the quote to the page
-//      (be sure to review the HTML as an element already was put there for you)
+function _drawQuote (quote, auth) {
+	let quoteElem = document.getElementById('quote');
+	quoteElem.innerHTML = `
+	<p id="quote-body">
+		<span>${quote}</span><br>
+		${auth}
+	</p>
+	`
+}
+
 export default class QuoteController {
-	constructor () {}
+	constructor () {
+		this.getQuoteAsync();
+	}
+	async getQuoteAsync () {
+		let res = await QuoteService.getQuote();
+		_drawQuote(res.data.quote.body, res.data.quote.author);
+	}
 }

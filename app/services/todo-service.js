@@ -31,11 +31,17 @@ class TodoService {
 	
 	
 	removeTodo(id) {
-		let toRemove = store.State.todos.find(todo => todo._id===id);
+		store.commit('todos', store.State.todos.filter(cur=>cur._id!==id));
+		console.log('Removing: '+ id);
+		todoApi.delete(id)
+			.then(res=>console.log(res.data.data))
+			.catch(e=>console.error(e));
 	}
 	
 	disableTodo(id) {
-		let toDisable = store.State.todos.find(todo => todo._id===id);
+		todoApi.put({completed:true}, id)
+			.then(res=>console.log(res.data.data))
+			.catch(e=>console.error(e))
 		
 	}
 }

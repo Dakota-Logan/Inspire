@@ -6,14 +6,12 @@ function _drawTodos() {
 	//TODO Refactor this function, it's ~shite~.
 	let drawTo = document.getElementById('todos');
 	let toDraw = store.State.todos.map(cur=>cur.template);
-	let template = ''; toDraw.forEach(cur=>template+=cur);
-	// Not active rn for simplicities sake.
-	// drawTo.innerHTML = template;
+	let template = `Total: ${toDraw.length}`; toDraw.forEach(cur=>template+=cur);
+	drawTo.innerHTML = template;
 }
 
 export default class TodoController {
 	constructor() {
-		//TODO Remember to register your subscribers
 		store.subscribe('todos', _drawTodos);
 		TodoService.getTodos();
 	}
@@ -35,5 +33,6 @@ export default class TodoController {
 		} else {
 			TodoService.disableTodo(id);
 		}
+		_drawTodos();
 	}
 }

@@ -6,13 +6,14 @@ export default class Todo {
 	}
 	get template () {
 		return `
-			<p onclick="app.todoController.todoNegative('${this.id}', false)" class="todo-item" id="${this.id}">${this.description}</p>
-			<button type="button" class="todo-remove" onclick="app.todoController.todoNegative(${this.id}, true)">Remove</button>
+			<p onclick="app.todoController.todoNegative('${this._id}', false)" class="todo-item" id="${this._id}">${this.description}</p>
+			<button type="button" class="todo-remove" onclick="app.todoController.todoNegative('${this._id}', true)">Remove</button>
 		`
 	}
-	get strikedTemplate () {
+	get strikenTemplate () {
 		return `
-			<p onclick="app.todoController.todoNegative('${this.id}', false)" class="todo-item strikethrough" id="${this.id}">${this.description}</p>
+			<p onclick="app.todoController.todoNegative('${this._id}', false)" class="todo-item striken" id="${this._id}">${this.description}</p>
+			<button type="button" class="todo-remove" onclick="app.todoController.todoNegative('${this._id}', true)">Remove</button>
 		`
 	}
 }

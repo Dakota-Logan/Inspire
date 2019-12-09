@@ -4,8 +4,12 @@ const _quoteApi = axios.create({
   timeout: 3000
 });
 
-//TODO create methods to retrieve data trigger the update window when it is complete
-class QuoteService {}
+class QuoteService {
+  
+  getQuote() {
+    return _quoteApi.get();
+  }
+}
 
 const quoteService = new QuoteService();
 export default quoteService;
